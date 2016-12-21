@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h" //paste new includes above
 
 class UTankBarrel;
+class UTankAimingComponent;
 
 UCLASS()
 class TANKS_API ATank : public APawn
@@ -24,7 +24,7 @@ protected:
     
 private:
     UPROPERTY(EditAnywhere, Category = Firing)
-    float LaunchSpeed = 100000; // 1000 m/s in cm
+    float LaunchSpeed = 4000; // 1000 m/s in cm
     
 	// Sets default values for this pawn's properties
 	ATank();
@@ -32,9 +32,6 @@ private:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent( class UInputComponent* InputComponent ) override;
 	

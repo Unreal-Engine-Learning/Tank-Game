@@ -13,7 +13,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
-
 	// ...
 }
 
@@ -24,8 +23,6 @@ void UTankAimingComponent::SetBarrelReference( UTankBarrel* BarrelToSet )
 
 void UTankAimingComponent::AimAt( FVector HitLocation, float LaunchSpeed )
 {
-    //auto OurTankName = GetOwner()->GetName();
-    //auto BarrelLocation = Barrel->GetComponentLocation().ToString();
     if ( !Barrel ) { return; }
     FVector OutLaunchVelocity;
     FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -36,24 +33,34 @@ void UTankAimingComponent::AimAt( FVector HitLocation, float LaunchSpeed )
          StartLocation,
          HitLocation,
          LaunchSpeed,
-         ESuggestProjVelocityTraceOption::DoNotTrace
-    ); // calculate launch velocity
+         false,
+         0,
+         0,
+         ESuggestProjVelocityTraceOption::DoNotTrace //parameter must be present to prevent bug
+        ); // calculate launch velocity
     
     if (bHaveAimSolution)
     {
         auto AimDirection = OutLaunchVelocity.GetSafeNormal();
         auto TankName = GetOwner()->GetName();
-        MoveBarrel( AimDirection );
+        MoveBarrelTowards( AimDirection );
+        auto Time = GetWorld()->GetTimeSeconds();
+        UE_LOG(LogTemp, Warning, TEXT("%f: aim solve found"), Time);
+    }
+    else
+    {
+        auto Time = GetWorld()->GetTimeSeconds();
+        UE_LOG(LogTemp, Warning, TEXT("%f: No aim solve found"), Time);
     }
     // if no solution found do nothing
 }
 
-void UTankAimingComponent::MoveBarrel( FVector AimDirection )
+void UTankAimingComponent::MoveBarrelTowards( FVector AimDirection )
 {
     // Work-out difference between current barrel rotation and aim direction
     auto BarrelRotator = Barrel->GetForwardVector().Rotation();
     auto AimAsRotator = AimDirection.Rotation();
     auto DeltaRotator = AimAsRotator - BarrelRotator;
     
-    Barrel->Elevate(5);
+    Barrel->Elevate(DeltaRotator.Pitch);
 }
