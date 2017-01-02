@@ -7,6 +7,7 @@
 
 class UTankBarrel;
 class UTankAimingComponent;
+class AProjectile;
 
 UCLASS()
 class TANKS_API ATank : public APawn
@@ -29,8 +30,13 @@ protected:
     UTankAimingComponent* TankAimingComponent = nullptr;
     
 private:
-    UPROPERTY(EditAnywhere, Category = Setup)
+    UPROPERTY(EditDefaultsOnly, Category = Setup)
     float LaunchSpeed = 4000; // 1000 m/s in cm
+    
+    UPROPERTY(EditDefaultsOnly, Category = Setup)
+    TSubclassOf<AProjectile> ProjectileBlueprint;
+    
+    UTankBarrel* Barrel = nullptr;
     
 	// Sets default values for this pawn's properties
 	ATank();
@@ -41,4 +47,9 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent( class UInputComponent* InputComponent ) override;
 	
+    UPROPERTY(EditDefaultsOnly, Category = Setup)
+    float ReloadTimeInSeconds = 3;
+    
+    double LastFireTime = 0;
+    
 };
