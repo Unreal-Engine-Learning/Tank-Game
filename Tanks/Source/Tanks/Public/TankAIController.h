@@ -20,4 +20,7 @@ public:
     virtual void Tick( float DeltaTime ) override;
     ATank* GetControlledTank() const;
     ATank* GetPlayerTank() const;
+    
+private:
+    float AcceptanceRadius;
 };
