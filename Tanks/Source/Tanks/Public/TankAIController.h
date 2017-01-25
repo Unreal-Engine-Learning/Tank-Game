@@ -16,11 +16,14 @@ class TANKS_API ATankAIController : public AAIController
 	GENERATED_BODY()
 	
 public:
-    void BeginPlay() override;
-    virtual void Tick( float DeltaTime ) override;
     ATank* GetControlledTank() const;
     ATank* GetPlayerTank() const;
     
+protected:
+    UPROPERTY(EditDefaultsOnly, Category = "Setup") //consider EditDefaultsOnly
+    float AcceptanceRadius = 8000;
+    
 private:
-    float AcceptanceRadius;
+    void BeginPlay() override;
+    virtual void Tick( float DeltaTime ) override;
 };
