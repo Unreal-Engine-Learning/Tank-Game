@@ -10,15 +10,15 @@ UTankTrack::UTankTrack()
 void UTankTrack::BeginPlay()
 {
     OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
-    UE_LOG(LogTemp, Warning, TEXT("throttle start"));
+   // UE_LOG(LogTemp, Warning, TEXT("throttle start"));
 }
 
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-    UE_LOG(LogTemp, Warning, TEXT("throttle me"));
+   // UE_LOG(LogTemp, Warning, TEXT("throttle me"));
     DriveTrack();
     ApplySidewaysForce();
-    UE_LOG(LogTemp, Warning, TEXT("throttle %f"), CurrentThrottle);
+    //UE_LOG(LogTemp, Warning, TEXT("throttle %f"), CurrentThrottle);
     CurrentThrottle = 0;
 }
 

@@ -88,7 +88,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
     // if no solution found do nothing
 }
 
-void UTankAimingComponent::MoveBarrelTowards( FVector AimDirection )
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
     if (!ensure((Barrel || !Turret))) { return; }
     // Work-out difference between current barrel rotation and aim direction
